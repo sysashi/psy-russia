@@ -1,36 +1,46 @@
-<div class="jumbotron">
-  <h2><%= gettext "Welcome to %{name}", name: "Phoenix!" %></h2>
-  <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
+<div class="intro">
+  <p><strong>Psychology Russia</strong> - это ресурс для тех, кто попал в трудную жизненную ситуацию
+и не имеет времени или желания получать психологическую помощь в офисе у
+специалиста. Вам нужно только выбрать понравившегося специалиста в своем
+городе, связаться с ним и назначить место встречи.</p>
 </div>
+<div class="search-form">
+  <form>
 
-<div class="row marketing">
-  <div class="col-lg-6">
-    <h4>Resources</h4>
-    <ul>
-      <li>
-        <a href="http://phoenixframework.org/docs/overview">Guides</a>
-      </li>
-      <li>
-        <a href="https://hexdocs.pm/phoenix">Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-    </ul>
-  </div>
+    <div class="input-block">
+      <div class="input-group">
+        <span class="input-group-addon"> Город </span>
+        <input class="city" list="browsers" type="text"> 
+        <datalist id="browsers">
+          <option value="Chrome">
+          <option value="Firefox">
+          <option value="Internet Explorer">
+          <option value="Opera">
+          <option value="Safari">
+          <option value="Microsoft Edge">
+        </datalist>
+      </div>
+    </div>
 
-  <div class="col-lg-6">
-    <h4>Help</h4>
-    <ul>
-      <li>
-        <a href="http://groups.google.com/group/phoenix-talk">Mailing list</a>
-      </li>
-      <li>
-        <a href="http://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">@elixirphoenix</a>
-      </li>
-    </ul>
-  </div>
+    <div class="input-block">
+      <div class="input-group">
+        <span class="input-group-addon"> Направление </span>
+        <input class="occupation" list="browsers2" type="text"> 
+        <datalist id="browsers2">
+          <option value="FireGfox2">
+          <option value="Chrome">
+          <option value="Firefox">
+          <option value="Internet Explorer">
+          <option value="Opera">
+          <option value="Safari">
+          <option value="Microsoft Edge">
+        </datalist>
+      </div>
+    </div>
+
+    <div class="input-block">
+      <button> Показать специалистов </button>
+    </div>
+
+  </form>
 </div>

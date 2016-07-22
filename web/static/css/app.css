@@ -1,1 +1,31 @@
-/* This file is for your main application css. */
+@import "template/layout";
+@import "common";
+@import "template/container";
+@import "template/header";
+@import "template/footer";
+
+
+/* pages */
+.intro {
+    & p {
+        font-size: 1.3em;
+    }
+}
+.search-form {
+    & form {
+        lost-flex-container: row;
+        font-size: 1.3em;
+        @media (--small-screen) {
+            lost-flex-container: column;
+        }
+    }
+    & button {
+        padding: 10px 8px;
+        line-height: 1.5;
+        border: 1px solid #666;
+        background: #666;
+        color: #FFF;
+        width: 100%;
+    }
+}
+

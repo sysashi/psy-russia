@@ -1,0 +1,19 @@
+    <footer>
+      <div class="social-media">
+        <a href="/">Следите за новосятми в Twitter</a>
+      </div>
+      <div class="links">
+        <ul>
+          <li><a href="/">О сайте</a></li>
+          <li><a href="/">Соглашение</a></li>
+          <li><a href="/">Обратная связь</a></li>
+          <li><a href="/">Техническая поддержка</a></li>
+        </ul>
+      </div>
+      <div class="copyright">
+        <span>© PsychologyRussia.ru </span>
+      </div>
+    </footer>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>

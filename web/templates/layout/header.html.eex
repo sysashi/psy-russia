@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Psychology Russia</title>
+  <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h1><a href="/">Psychology Russia</a></h1> 
+    </div>
+    <li class="separator"></li>
+    <nav>
+      <div class="menu">
+        <ul>
+          <li><a href="/">Поиск</a></li>
+          <li><a href="/">Как это работает</a></li>
+        </ul>
+      </div>
+    </nav>
+    <!-- <li class="separator"></li> -->
+    <!-- <nav>
+      <div class="menu">
+        <ul>
+          <li><a href="/">Регистрация для психологов</a></li>
+        </ul>
+      </div>
+    </nav> -->
+  </header>

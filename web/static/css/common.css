@@ -1,0 +1,40 @@
+.input-block {
+    flex: 1;
+    text-align: center;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+.input-group {
+    position: relative;
+    display: table;
+    box-sizing: border-box;
+    border-collapse: separate;
+
+    & .input-group-addon:first-child {
+        border-right: 0;
+    }
+    & .input-group-addon:last-child{
+        border-left: 0;
+    }
+    & .input-group-addon {
+        vertical-align: middle;
+        display: table-cell;
+        padding: 10px 8px;
+        border: 1px solid #ccc;
+        width: 1%;
+    }
+    & input {
+        padding: 10px 8px;
+        line-height: 1.5;
+        width: 100%;
+        z-index: 2;
+        float: left;
+        box-sizing: inherit;
+        position: relative;
+        border: 1px solid #ccc;
+    }
+
+    &:before, &:after {
+        box-sizing: inherit;
+    }
+}

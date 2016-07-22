@@ -1,0 +1,36 @@
+footer {
+    font-size: 0.8rem;
+    background: #333;
+    color: #aaa;
+    lost-flex-container: row;
+    justify-content: center;
+    align-content: center;
+
+    & :any-link {
+        color: #aaa;
+        text-decoration: none;
+        border-bottom: 1px dotted #777;
+        padding-bottom: 2px;
+    }
+}
+
+footer > div {
+    flex: 0 0 300px;
+    display: flex;
+    justify-content: center;
+
+    padding: 20px 40px;
+    margin: 0 50px;
+    align-items: center;
+}
+
+footer .links {
+    & ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        & li {
+            margin-top: 8px;
+        }
+    }
+}
