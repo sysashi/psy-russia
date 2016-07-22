@@ -17,7 +17,7 @@ defmodule PsyRussia.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/registrations", RegistrationController
+    resources "/registration", RegistrationController, only: [:new, :create], singleton: true
     resources "/profiles", ProfileController
   end
 
