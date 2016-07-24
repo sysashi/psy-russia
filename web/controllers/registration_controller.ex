@@ -3,9 +3,8 @@ defmodule PsyRussia.RegistrationController do
 
   alias PsyRussia.Registration
 
-  def index(conn, _params) do
-    registrations = Repo.all(Registration)
-    render(conn, "index.html", registrations: registrations)
+  def show(conn, _params) do
+    redirect conn, to: registration_path(conn, :new)
   end
 
   def new(conn, _params) do
@@ -24,42 +23,5 @@ defmodule PsyRussia.RegistrationController do
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
-  end
-
-  def show(conn, %{"id" => id}) do
-    registration = Repo.get!(Registration, id)
-    render(conn, "show.html", registration: registration)
-  end
-
-  def edit(conn, %{"id" => id}) do
-    registration = Repo.get!(Registration, id)
-    changeset = Registration.changeset(registration)
-    render(conn, "edit.html", registration: registration, changeset: changeset)
-  end
-
-  def update(conn, %{"id" => id, "registration" => registration_params}) do
-    registration = Repo.get!(Registration, id)
-    changeset = Registration.changeset(registration, registration_params)
-
-    case Repo.update(changeset) do
-      {:ok, registration} ->
-        conn
-        |> put_flash(:info, "Registration updated successfully.")
-        |> redirect(to: registration_path(conn, :show, registration))
-      {:error, changeset} ->
-        render(conn, "edit.html", registration: registration, changeset: changeset)
-    end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    registration = Repo.get!(Registration, id)
-
-    # Here we use delete! (with a bang) because we expect
-    # it to always work (and if it does not, it will raise).
-    Repo.delete!(registration)
-
-    conn
-    |> put_flash(:info, "Registration deleted successfully.")
-    |> redirect(to: registration_path(conn, :index))
   end
 end

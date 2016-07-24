@@ -1,6 +1,6 @@
 defmodule PsyRussia.Profile do
   use PsyRussia.Web, :model
-
+  
   schema "profiles" do
     belongs_to :psychologist, PsyRussia.Psychologist
 

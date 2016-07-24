@@ -17,12 +17,12 @@ defmodule PsyRussia.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/registration", RegistrationController, only: [:new, :create], singleton: true
-    resources "/profiles", ProfileController
+
+    resources "/registration", RegistrationController, 
+      only: [:show, :new, :create], singleton: true
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", PsyRussia do
-  #   pipe_through :api
-  # end
+  scope "/me", PsyRussia do
+    resources "/profile", ProfileController, singleton: true
+  end
 end
