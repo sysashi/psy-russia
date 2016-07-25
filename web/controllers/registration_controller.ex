@@ -16,10 +16,13 @@ defmodule PsyRussia.RegistrationController do
     changeset = Registration.changeset(%Registration{}, registration_params)
 
     case Repo.insert(changeset) do
-      {:ok, _registration} ->
+      {:ok, registration} ->
+        PsyRussia.Psychologist.new(registration)
+        |> Repo.insert!()
+
         conn
         |> put_flash(:info, "Registration created successfully.")
-        |> redirect(to: registration_path(conn, :index))
+        |> redirect(to: profile_path(conn, :new, step: 1))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end

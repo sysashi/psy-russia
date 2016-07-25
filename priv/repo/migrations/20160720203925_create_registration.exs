@@ -11,9 +11,9 @@ defmodule PsyRussia.Repo.Migrations.CreateRegistration do
 
       timestamps()
     end
-    
     create constraint(:registrations, :only_allowed_status, 
       check: "status in ('new', 'pending', 'confirmed')")
 
+    create index(:registrations, [:psychologist_id])
   end
 end

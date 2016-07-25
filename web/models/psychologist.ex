@@ -16,4 +16,9 @@ defmodule PsyRussia.Psychologist do
     |> cast(params, [])
     |> validate_required([])
   end
+
+  def new(registraion, params \\ %{}) do
+    changeset(%PsyRussia.Psychologist{}, params)
+    |> put_assoc(:registraion, registraion)
+  end
 end

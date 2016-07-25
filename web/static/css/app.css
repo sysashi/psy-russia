@@ -29,3 +29,12 @@
     }
 }
 
+/* new profile, header */
+.profile-steps {
+    width: 100%;
+    display: flex;
+    & > div {
+        flex: 1;
+    }
+}
+

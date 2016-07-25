@@ -9,16 +9,16 @@ defmodule PsyRussia.Registration do
 
     belongs_to :psychologist, PsyRussia.Psychologist
 
-
     timestamps()
   end
 
+  @required_fields [:email, :password]
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:email, :password])
-    |> validate_required([:email, :password])
+    |> cast(params, @required_fields)
+    |> validate_required(@required_fields)
   end
 end

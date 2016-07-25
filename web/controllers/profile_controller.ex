@@ -8,9 +8,11 @@ defmodule PsyRussia.ProfileController do
     render(conn, "index.html", profiles: profiles)
   end
 
-  def new(conn, _params) do
+  def new(conn, %{"step" => step}) do
     changeset = Profile.changeset(%Profile{})
-    render(conn, "new.html", changeset: changeset)
+    conn
+    |> put_layout("new_profile.html")
+    |> render("step-#{step}.html", changeset: changeset)
   end
 
   def create(conn, %{"profile" => profile_params}) do
