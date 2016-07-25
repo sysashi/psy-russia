@@ -38,3 +38,10 @@
         box-sizing: inherit;
     }
 }
+.form-group {
+    & label {
+        display: inline-block;
+        min-width: 100px;
+        text-align: left;
+    }
+}

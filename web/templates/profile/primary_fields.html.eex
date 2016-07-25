@@ -1,21 +1,21 @@
 <div class="new-profile-form">
   <%= form_for @changeset, profile_path(@conn, :new, step: 2), fn f -> %>
     <div class="form-group">
-      <%= label f, :fullname, class: "control-label" %>
+      <%= label f, :fullname, "Полное имя"%>
       <%= text_input f, :fullname, class: "form-control" %>
       <%= error_tag f, :fullname %>
     </div>
     <div class="form-group">
-      <%= label f, :location, class: "control-label" %>
+      <%= label f, :location, "Город" %>
       <%= text_input f, :location, class: "form-control" %>
       <%= error_tag f, :location %>
     </div>
     <div class="form-group">
-      <%= label f, :birthdate, class: "control-label" %>
-      <%= text_input f, :birthdate, class: "form-control" %>
+      <%= label f, :birthdate, "Дата рождения" %>
+      <%= date_select f, :birthdate, class: "form-control" %>
       <%= error_tag f, :birthdate %>
     </div>
 
-    <button> Next </button>
+    <button> Далее </button>
   <% end %>
 </div>
