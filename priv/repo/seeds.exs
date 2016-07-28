@@ -10,6 +10,11 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 defmodule Data do
+  def populate do
+    add_occupations()
+    add_locations()
+  end
+
   def occupations do
     [%{name: "Социальная психология",
         description: "занимается изучением поведения отдельного человека,
@@ -23,12 +28,24 @@ defmodule Data do
   биологические и психологические факторы."}]
   end
 
+  def locations do
+    [%{city: "Иркутск"},
+     %{city: "Москва"}]
+  end
+
   def add_occupations do
     Enum.each occupations(), fn o ->
       PsyRussia.Occupation.changeset(%PsyRussia.Occupation{}, o)
       |> PsyRussia.Repo.insert!()
     end
   end
+
+  def add_locations do
+    Enum.each locations(), fn l ->
+      PsyRussia.Location.changeset(%PsyRussia.Location{}, l)
+      |> PsyRussia.Repo.insert!()
+    end
+  end
 end
 
-Data.add_occupations()
+Data.populate()

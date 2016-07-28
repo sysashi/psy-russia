@@ -65,10 +65,10 @@ defmodule PsyRussia.ProfileController do
   end
 
   def edit(conn, %{"step" => step}) do
-    changeset = step
-    |> match_step()
-    |> defaults()
-    
+    action = match_step(step)
+    profile = current_psychologist_profile()
+    changeset = Profile.changeset(profile, %{})
+
     data = step
     |> match_step()
     |> load_assocs()
@@ -79,21 +79,18 @@ defmodule PsyRussia.ProfileController do
     |> render("step-#{step}.html", [changeset: changeset] ++ data)
   end
 
-  def edit(conn, %{"id" => id}) do
-    profile = Repo.get!(Profile, id)
-    changeset = Profile.changeset(profile)
-    render(conn, "edit.html", profile: profile, changeset: changeset)
-  end
-
   def update(conn, %{"profile" => profile_params, "step" => step}) do
     action = match_step(step)
-    changeset = Profile.changeset(%Profile{}, action, profile_params)
+    profile = current_psychologist_profile()
+    changeset = Profile.changeset(profile, action, profile_params)
+
+    IO.inspect profile_params
 
     data = step
     |> match_step()
     |> load_assocs()
 
-    case Repo.insert(changeset) do
+    case Repo.update(changeset) do
       {:ok, profile} ->
         next = next_step(step)
         conn
@@ -182,8 +179,17 @@ defmodule PsyRussia.ProfileController do
   end
 
   defp defaults(_) do
+  end
+
+  def current_psychologist_profile do
     Repo.get(Profile, 1)
     |> Repo.preload(:location)
+    |> Repo.preload(:psychologist)
+    |> Repo.preload(:occupations)
+    |> Repo.preload(:contact_list)
+    |> Repo.preload(:education_records)
+    |> Repo.preload(:employment_records)
+    |> Repo.preload(:documents)
     |> Profile.changeset()
   end
 end

@@ -15,4 +15,9 @@ defmodule PsyRussia.Location do
     |> cast(params, [:city])
     |> validate_required([:city])
   end
+
+  def build(struct, profile) do
+    struct
+    |> build_assoc(:profiles, profile)
+  end
 end

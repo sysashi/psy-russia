@@ -23,15 +23,12 @@ defmodule PsyRussia.Profile do
     timestamps()
   end
 
-  @primary_fields [:fullname, :birthdate, :picture]
+  @primary_fields [:fullname, :birthdate, :picture, :location_id]
   @secondary_fields [:occupations_ids]
 
   def changeset(struct, params \\ %{}) do
     struct
     |> changeset(:psychologist, params)
-    # |> changeset(:primary_fields, params)
-    # |> changeset(:secondary_fields, params)
-    # |> changeset(:documents, params)
   end
 
   def changeset(struct, :psychologist, params) do
@@ -45,6 +42,8 @@ defmodule PsyRussia.Profile do
     struct 
     |> cast(params, @primary_fields)
     |> validate_required(@primary_fields)
+    |> update_location()
+    |> change()
   end
 
   def changeset(struct, :secondary_fields, params) do
@@ -56,5 +55,18 @@ defmodule PsyRussia.Profile do
 
   def changeset(struct, :contact_list, params) do
     struct
+  end
+
+  def update_location(changeset) do
+    case changeset do 
+      %Ecto.Changeset{changes: %{location_id: id}, valid?: true} ->
+        profile = PsyRussia.Repo.get!(PsyRussia.Location, id)
+        |> PsyRussia.Location.build(changeset)
+
+        IO.inspect profile
+        profile
+      _ ->
+        changeset
+    end
   end
 end
