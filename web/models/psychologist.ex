@@ -2,7 +2,7 @@ defmodule PsyRussia.Psychologist do
   use PsyRussia.Web, :model
 
   schema "psychologists" do
-    has_one :profle, PsyRussia.Profile
+    has_one :profile, PsyRussia.Profile
     has_one :registraion, PsyRussia.Registration
 
     timestamps()

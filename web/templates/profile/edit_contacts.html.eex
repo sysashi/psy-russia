@@ -1,0 +1,16 @@
+<%= form_for @changeset, profile_path(@conn, :create, [step: 3]), fn f -> %>
+  <%= inputs_for f, :contact_list, fn cl -> %>
+    <%= inputs_for cl, :phone_contacts, fn phones -> %>
+      <label> Add phone number </label>
+      <%= text_input phones, :number %>
+    <% end %>
+    <%= inputs_for cl, :email_contacts, fn emails -> %>
+      <label> Add email </label>
+      <%= text_input emails, :address %>
+    <% end %>
+    <%= inputs_for cl, :online_service_contacts, fn services -> %>
+    <% end %>
+  <% end %>
+
+  <button> Далее </button>
+<% end %>

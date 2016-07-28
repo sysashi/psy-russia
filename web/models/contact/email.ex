@@ -15,5 +15,6 @@ defmodule PsyRussia.Contact.Email do
     struct
     |> cast(params, [:address])
     |> validate_required([:address])
+    |> validate_format(:address, ~r/@/)
   end
 end

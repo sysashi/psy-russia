@@ -31,20 +31,21 @@
 
 /* new profile, header */
 .profile-steps {
-    background: #333;
+    background: #635CA4;
     color: #fff;
     width: 100%;
-    padding: 10px 0;
+    padding: 20px 0;
     display: flex;
     justify-content: space-around;
+    align-content: center;
     & > div {
-        flex: 0 0 auto;
+        flex: 0 0 300px;
     }
 }
 
 .profile-steps
 .step {
-    min-width: 250px;
+    text-align: center;
     &:first-child {
         /* margin-left: 20px; */
     }
@@ -54,25 +55,81 @@
     & .step-number {
         display: inline-block;
         padding: 10px 20px;
-        border: 1px solid #999;
         border-radius: 200px;
         font-size: 20px;
-        background: #333;
+        background: #888;
         color: #fff;
+        opacity: 0.8;
     }
     & .step-description {
         margin-left: 10px;
         display: inline-block;
     }
     &.active .step-number {
+        opacity: 1;
         background: #f18787;
     }
 }
 
+.container {
+    display: flex;
+}
 .new-profile-form {
     text-align: center;
     & .form-group, & button {
-        margin-top: 20px;
+    }
+    width: 80%;
+    margin: 50px auto;
+    flex: 1;
+    /* align-self: center; */
+}
+.form-group {
+    lost-utility: clearfix;
+    display: flex;
+    justify-content: center;
+}
+.input-decs {
+    flex: 0 0 200px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding-top: 20px;
+    & > label {
+        /* margin-right: 20px; */
+        text-align: right;
+        &.error {
+            color: red;
+        }
+    }
+    & .help-block {
+        text-align: right;
+    }
+}
+.input {
+    flex: 0 0 400px;
+    flex-direction: row;
+    justify-content: center;
+
+    padding-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    & > input {
+        width: 70%;
     }
 }
 
+.input
+.profile-photo {
+    border-radius: 50%;
+    border: 1px solid #aaa;
+    width: 200px;
+    height: 200px;
+    align-self: center;
+    margin-top: 40px;
+}
+.input.photo-input {
+    flex-direction: column;
+}
+.next-step {
+    margin-top: 20px;
+}

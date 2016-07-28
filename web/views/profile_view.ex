@@ -12,7 +12,7 @@ defmodule PsyRussia.ProfileView do
     render("secondary_fields.html", assigns)
   end
   defp render_step("3", assigns) do
-    render("documents.html", assigns)
+    render("edit_contacts.html", assigns)
   end
   defp render_step(_, _) do
     render(PsyRussia.ErrorView, "404.html")

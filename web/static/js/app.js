@@ -19,3 +19,69 @@ import "phoenix_html"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+//
+
+import select2 from "select2"
+import Edit from "./crop"
+
+$("select").select2()
+
+var fileSelect = document.getElementById("fileSelect"),
+    fileElem = document.getElementById("fileElem"),
+    preview = document.getElementById("preview")
+
+fileElem.addEventListener("change", function(e) {
+  console.log(e)
+  handleFiles(e.target.files)
+}, false);
+
+fileSelect.addEventListener("click", function (e) {
+  if (fileElem) {
+    fileElem.click();
+  }
+  e.preventDefault(); // prevent navigation to "#"
+}, false);
+
+function handleFiles(files) {
+  console.log(files)
+  for (var i = 0; i < files.length; i++) {
+    var file = files[i];
+    var imageType = /^image\//;
+    
+    if (!imageType.test(file.type)) {
+      continue;
+    }
+
+    Edit(file)
+  }
+}
+
+function sendFile(file) {
+  var csrf = document.querySelector("meta[name=csrf]").content;
+  var uri = "/upload";
+  var xhr = new XMLHttpRequest();
+  var fd = new FormData();
+  xhr.open("POST", uri, true);
+  xhr.setRequestHeader("X-CSRF-TOKEN", csrf)
+
+  xhr.upload.addEventListener("progress", function(e) {
+    if (e.lengthComputable) {
+      var percentage = Math.round((e.loaded * 100) / e.total);
+      console.log(percentage)
+    }
+  }, false);
+
+  xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+          // Handle response.
+          alert(xhr.responseText); // handle response.
+      }
+  };
+
+  fd.append("_csrf_token", csrf);
+  fd.append('myFile', file);
+
+  // Initiate a multipart/form-data upload
+  xhr.send(fd);
+}
+

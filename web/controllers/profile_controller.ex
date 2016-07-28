@@ -1,6 +1,7 @@
 defmodule PsyRussia.ProfileController do
   use PsyRussia.Web, :controller
 
+
   alias PsyRussia.Profile
 
   def index(conn, _params) do
@@ -9,10 +10,40 @@ defmodule PsyRussia.ProfileController do
   end
 
   def new(conn, %{"step" => step}) do
-    changeset = Profile.changeset(%Profile{})
+    changeset = step
+    |> match_step()
+    |> defaults()
+    
+    data = step
+    |> match_step()
+    |> load_assocs()
+
     conn
     |> put_layout("new_profile.html")
-    |> render("step-#{step}.html", changeset: changeset)
+    |> assign(:step, step)
+    |> render("step-#{step}.html", [changeset: changeset] ++ data)
+  end
+
+  def create(conn, %{"profile" => profile_params, "step" => step}) do
+    action = match_step(step)
+    changeset = Profile.changeset(%Profile{}, action, profile_params)
+
+    data = step
+    |> match_step()
+    |> load_assocs()
+
+    case Repo.insert(changeset) do
+      {:ok, profile} ->
+        next = next_step(step)
+        conn
+        |> redirect(to: profile_path(conn, :new, step: next))
+      {:error, changeset} ->
+        IO.inspect changeset
+        conn 
+        |> assign(:step, step)
+        |> put_layout("new_profile.html")
+        |> render("step-#{step}.html", [changeset: changeset] ++ data)
+    end
   end
 
   def create(conn, %{"profile" => profile_params}) do
@@ -21,16 +52,31 @@ defmodule PsyRussia.ProfileController do
     case Repo.insert(changeset) do
       {:ok, _profile} ->
         conn
-        |> put_flash(:info, "Profile created successfully.")
         |> redirect(to: profile_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
   end
 
+
   def show(conn, %{"id" => id}) do
     profile = Repo.get!(Profile, id)
     render(conn, "show.html", profile: profile)
+  end
+
+  def edit(conn, %{"step" => step}) do
+    changeset = step
+    |> match_step()
+    |> defaults()
+    
+    data = step
+    |> match_step()
+    |> load_assocs()
+
+    conn
+    |> put_layout("new_profile.html")
+    |> assign(:step, step)
+    |> render("step-#{step}.html", [changeset: changeset] ++ data)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -39,14 +85,35 @@ defmodule PsyRussia.ProfileController do
     render(conn, "edit.html", profile: profile, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "profile" => profile_params}) do
-    profile = Repo.get!(Profile, id)
+  def update(conn, %{"profile" => profile_params, "step" => step}) do
+    action = match_step(step)
+    changeset = Profile.changeset(%Profile{}, action, profile_params)
+
+    data = step
+    |> match_step()
+    |> load_assocs()
+
+    case Repo.insert(changeset) do
+      {:ok, profile} ->
+        next = next_step(step)
+        conn
+        |> redirect(to: profile_path(conn, :edit, step: next))
+      {:error, changeset} ->
+        IO.inspect changeset
+        conn 
+        |> assign(:step, step)
+        |> put_layout("new_profile.html")
+        |> render("step-#{step}.html", [changeset: changeset] ++ data)
+    end
+  end
+
+  def update(conn, %{"profile" => profile_params}) do
+    profile = Repo.get!(Profile, 1)
     changeset = Profile.changeset(profile, profile_params)
 
     case Repo.update(changeset) do
       {:ok, profile} ->
         conn
-        |> put_flash(:info, "Profile updated successfully.")
         |> redirect(to: profile_path(conn, :show, profile))
       {:error, changeset} ->
         render(conn, "edit.html", profile: profile, changeset: changeset)
@@ -63,5 +130,60 @@ defmodule PsyRussia.ProfileController do
     conn
     |> put_flash(:info, "Profile deleted successfully.")
     |> redirect(to: profile_path(conn, :index))
+  end
+
+
+  # TODO should i move that logic to changest?
+  defp match_step(step) when is_binary(step) do
+    String.to_integer(step) |> match_step
+  end
+
+  defp match_step(step) do
+    case step do
+      1 -> :primary_fields
+      2 -> :secondary_fields
+      3 -> :contact_list
+      4 -> :history
+      _ -> nil
+    end
+  end
+
+  defp next_step(step) when is_binary(step) do
+    next = String.to_integer(step) + 1
+    if match_step(next) do
+      next
+    else
+      :not_found
+    end
+  end
+
+  defp load_assocs(:primary_fields) do
+    [locations: Repo.all(PsyRussia.Location)]
+  end
+
+  defp load_assocs(:secondary_fields) do
+    [occupations: Repo.all(PsyRussia.Occupation)]
+  end
+
+  defp load_assocs(_), do: []
+
+  defp defaults(:secondary_fields) do
+    Profile.changeset(%Profile{documents: [%PsyRussia.Document{}]})
+  end
+
+  defp defaults(:contact_list) do
+    phone = %PsyRussia.Contact.Phone{}
+    email = %PsyRussia.Contact.Email{}
+    contact_list = %PsyRussia.ContactList{
+      phone_contacts: [phone],
+      email_contacts: [email]} 
+
+    PsyRussia.Profile.changeset(%PsyRussia.Profile{contact_list: contact_list})
+  end
+
+  defp defaults(_) do
+    Repo.get(Profile, 1)
+    |> Repo.preload(:location)
+    |> Profile.changeset()
   end
 end

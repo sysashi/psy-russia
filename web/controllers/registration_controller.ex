@@ -13,16 +13,19 @@ defmodule PsyRussia.RegistrationController do
   end
 
   def create(conn, %{"registration" => registration_params}) do
-    changeset = Registration.changeset(%Registration{}, registration_params)
+    changeset = Registration.changeset(%Registration{}, :create, registration_params)
 
     case Repo.insert(changeset) do
       {:ok, registration} ->
-        PsyRussia.Psychologist.new(registration)
+
+        psychologist = PsyRussia.Psychologist.new(registration)
+        |> Repo.insert!()
+        |> Ecto.build_assoc(:profile)
         |> Repo.insert!()
 
         conn
         |> put_flash(:info, "Registration created successfully.")
-        |> redirect(to: profile_path(conn, :new, step: 1))
+        |> redirect(to: profile_path(conn, :edit, step: 1))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end

@@ -20,7 +20,10 @@ exports.config = {
       // }
     },
     stylesheets: {
-      joinTo: "css/app.css",
+      joinTo: {
+        "css/app.css": /^(web\/static\/css)/,
+        "css/vendor.css": /^(node_modules)/
+      },
       order: {
         after: ["web/static/css/app.css"] // concat app.css last
       }
@@ -73,6 +76,13 @@ exports.config = {
   },
 
   npm: {
-    enabled: true
+    enabled: true,
+    globals: {
+      $: "jquery",
+      select2: "select2"
+    },
+    styles: {
+      select2: ["dist/css/select2.min.css"]
+    }
   }
 };

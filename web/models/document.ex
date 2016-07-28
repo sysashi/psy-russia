@@ -16,5 +16,6 @@ defmodule PsyRussia.Document do
     struct
     |> cast(params, [:name, :url])
     |> validate_required([:name, :url])
+    |> validate_format(:url, ~r/^(http:\/\/)|^(https:\/\/)|^(\/)/)
   end
 end

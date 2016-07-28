@@ -14,6 +14,12 @@ defmodule PsyRussia.ErrorHelpers do
     end
   end
 
+  def error_class(form, field) do
+    if form.errors[field] do
+      "error"
+    end
+  end
+
   @doc """
   Translates an error message using gettext.
   """

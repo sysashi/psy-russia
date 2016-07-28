@@ -45,3 +45,24 @@
         text-align: left;
     }
 }
+
+button, select {
+    border: 1px solid #aaa;
+    padding: 6px 8px;
+    color: #555;
+    border-radius: 2px;
+    &:hover,&:focus {
+        background: #fff;
+        cursor: pointer;
+    }
+}
+
+input {
+    border: 1px solid #aaa;
+    padding: 6px 8px;
+    color: #555;
+    border-radius: 2px;
+    &:focus {
+        border-color: #777;
+    }
+}

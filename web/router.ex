@@ -9,9 +9,14 @@ defmodule PsyRussia.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :upload do
+    plug :put_secure_browser_headers
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
+
 
   scope "/", PsyRussia do
     pipe_through :browser # Use the default browser stack
@@ -20,6 +25,13 @@ defmodule PsyRussia.Router do
 
     resources "/registration", RegistrationController, 
       only: [:show, :new, :create], singleton: true
+  end
+
+  scope "/", PsyRussia do
+    # FIXME make CSRF work
+    pipe_through :upload
+
+    post "/upload", UploadController, :upload
   end
 
   scope "/me", PsyRussia do

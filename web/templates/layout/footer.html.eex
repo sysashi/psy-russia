@@ -1,7 +1,4 @@
     <footer>
-      <div class="social-media">
-        <a href="/">Следите за новосятми в Twitter</a>
-      </div>
       <div class="links">
         <ul>
           <li><a href="/">О сайте</a></li>
@@ -10,6 +7,9 @@
           <li><a href="/">Техническая поддержка</a></li>
         </ul>
       </div>
+        <div class="social-media">
+          <a href="/">Следите за новосятми в Twitter</a>
+        </div>
       <div class="copyright">
         <span>© PsychologyRussia.ru </span>
       </div>

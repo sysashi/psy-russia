@@ -15,5 +15,7 @@ defmodule PsyRussia.Repo.Migrations.CreateRegistration do
       check: "status in ('new', 'pending', 'confirmed')")
 
     create index(:registrations, [:psychologist_id])
+
+    create unique_index(:registrations, [:email])
   end
 end

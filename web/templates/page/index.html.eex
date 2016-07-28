@@ -9,32 +9,15 @@
 
     <div class="input-block">
       <div class="input-group">
-        <span class="input-group-addon"> Город </span>
-        <input class="city" list="browsers" type="text"> 
-        <datalist id="browsers">
-          <option value="Chrome">
-          <option value="Firefox">
-          <option value="Internet Explorer">
-          <option value="Opera">
-          <option value="Safari">
-          <option value="Microsoft Edge">
-        </datalist>
+        <span class=""> Город </span>
+        <%= select :location, :city, Enum.map(@locations, &{&1.city, &1.city}) %>
       </div>
     </div>
 
     <div class="input-block">
       <div class="input-group">
-        <span class="input-group-addon"> Направление </span>
-        <input class="occupation" list="browsers2" type="text"> 
-        <datalist id="browsers2">
-          <option value="FireGfox2">
-          <option value="Chrome">
-          <option value="Firefox">
-          <option value="Internet Explorer">
-          <option value="Opera">
-          <option value="Safari">
-          <option value="Microsoft Edge">
-        </datalist>
+        <span class=""> Направление </span>
+        <%= select :occupation, :id, Enum.map(@occupations, &{&1.name, &1.id}) %>
       </div>
     </div>
 

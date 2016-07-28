@@ -4,28 +4,36 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
+  <%= tag(:meta, content: get_csrf_token(), name: "csrf") %>
   <title>New profile | Psychology Russia</title>
+  <link rel="stylesheet" href="<%= static_path(@conn, "/css/vendor.css") %>">
   <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
 </head>
 <body>
 <header>
   <div class="profile-steps">
-    <div class="step step-1 active">
+    <div class="step <%= active?(@step, "1") %>">
       <div class="step-number">1</div>
       <div class="step-description">
         Персональные данные
       </div>
     </div>
-    <div class="step step-2">
+    <div class="step <%= active?(@step, "2") %>">
       <div class="step-number">2</div>
       <div class="step-description">
-        Карьера и контакты
+        Специальности и документы
       </div>
     </div>
-    <div class="step step-3">
+    <div class="step <%= active?(@step, "3") %>">
       <div class="step-number">3</div>
       <div class="step-description">
-        Документы
+        Контакты
+      </div>
+    </div>
+    <div class="step <%= active?(@step, "4") %>">
+      <div class="step-number">4</div>
+      <div class="step-description">
+        Дополнительная информация
       </div>
     </div>
   </div>
