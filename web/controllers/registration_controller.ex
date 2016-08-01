@@ -20,10 +20,13 @@ defmodule PsyRussia.RegistrationController do
 
         psychologist = PsyRussia.Psychologist.new(registration)
         |> Repo.insert!()
+
+        new_profile = psychologist
         |> Ecto.build_assoc(:profile)
         |> Repo.insert!()
 
         conn
+        |> put_session(:psychologist, psychologist.id)
         |> put_flash(:info, "Registration created successfully.")
         |> redirect(to: profile_path(conn, :edit, step: 1))
       {:error, changeset} ->

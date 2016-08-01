@@ -2,8 +2,12 @@
   <%= form_for @changeset, profile_path(@conn, :create, [step: 2]), fn f -> %>
   <div class="occupations">
     <h2>Выберите одну или несколько специальностей</h2>
-    <% occupations = Enum.map @occupations, &{&1.name, &1.id} %>
-    <%= multiple_select f, :occupations_ids, occupations %>
+    <% all_occupations = Enum.map @occupations, &{&1.name, &1.id} %>
+    <%= multiple_select f, :occupations_ids, all_occupations %>
+    <%= inputs_for f, :occupations, fn occupations -> %>
+      <%= text_input occupations, :id %>
+      <%= multiple_select occupations, :occupations_ids, all_occupations %>
+    <%= end %>
   </div>
   <div class="documents">
     <h2> Загрузите документы о вашем образовании и/или сертификаты </h2>

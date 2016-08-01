@@ -3,7 +3,7 @@ defmodule PsyRussia.Psychologist do
 
   schema "psychologists" do
     has_one :profile, PsyRussia.Profile
-    has_one :registraion, PsyRussia.Registration
+    has_one :registration, PsyRussia.Registration
 
     timestamps()
   end
@@ -19,6 +19,6 @@ defmodule PsyRussia.Psychologist do
 
   def new(registraion, params \\ %{}) do
     changeset(%PsyRussia.Psychologist{}, params)
-    |> put_assoc(:registraion, registraion)
+    |> put_assoc(:registration, registraion)
   end
 end

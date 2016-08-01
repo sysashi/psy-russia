@@ -23,8 +23,16 @@ defmodule PsyRussia.Router do
 
     get "/", PageController, :index
 
+    get "/login", SessionController, :new
+    post "/login", SessionController, :create
+    get "/logout", SessionController, :delete
+
     resources "/registration", RegistrationController, 
       only: [:show, :new, :create], singleton: true
+
+    scope "/me" do
+      resources "/profile", ProfileController, singleton: true
+    end
   end
 
   scope "/", PsyRussia do
@@ -34,7 +42,4 @@ defmodule PsyRussia.Router do
     post "/upload", UploadController, :upload
   end
 
-  scope "/me", PsyRussia do
-    resources "/profile", ProfileController, singleton: true
-  end
 end

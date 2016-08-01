@@ -31,11 +31,6 @@ defmodule PsyRussia.Registration do
     |> hash_password()
   end
 
-  def success_registration(registration, params \\ %{}) do
-    Multi.new
-    |> Multi.insert(:psychologists, PsyRussia.Psychologist.new(registration))
-  end
-
   defp hash_password(changeset) do
     if changeset.valid? do
       password = get_change(changeset, :password)

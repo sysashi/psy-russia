@@ -1,5 +1,5 @@
 .input-block {
-    flex: 1;
+    flex: 0 0 300px;
     text-align: center;
     margin-right: 20px;
     margin-bottom: 20px;
@@ -23,7 +23,7 @@
         border: 1px solid #ccc;
         width: 1%;
     }
-    & input {
+    & input, select {
         padding: 10px 8px;
         line-height: 1.5;
         width: 100%;
@@ -32,6 +32,26 @@
         box-sizing: inherit;
         position: relative;
         border: 1px solid #ccc;
+    }
+
+    & .select2-selection {
+        height: 50px;
+        border-radius: 0;
+        border-color: #ccc;
+    }
+
+    & .select2-selection__rendered {
+        line-height: 50px !important;
+    }
+
+    & .select2 {
+        width: 100%;
+        min-width: 200px;
+        float: left;
+    }
+
+    & .select2-selection__arrow {
+        height: 50px !important;
     }
 
     &:before, &:after {

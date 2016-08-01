@@ -11,6 +11,5 @@
     <%= inputs_for cl, :online_service_contacts, fn services -> %>
     <% end %>
   <% end %>
-
   <button> Далее </button>
 <% end %>

@@ -2,9 +2,8 @@ defmodule PsyRussia.HistoryRecord do
   use PsyRussia.Web, :model
 
   schema "history_records" do
-    field :in, Ecto.DateTime
-    field :from, Ecto.DateTime
-    field :to, Ecto.DateTime
+    field :from, Ecto.Date
+    field :to, Ecto.Date
     field :subject, :string
     field :url, :string
     belongs_to :profile, PsyRussia.Profile

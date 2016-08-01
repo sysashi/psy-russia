@@ -1,6 +1,7 @@
 :root {
     --header-height: 200px;
     --footer-height: 200px;
+    --container-width: 900px;
 }
 
 @lost flexbox flex;
@@ -16,15 +17,23 @@ body {
     line-height: 1.5;
     color: #333;
     lost-flex-container: column;
-    height: 100%;
-}
-header {
-    flex: 0 0 auto;
+    min-height: 100%;
 }
 .container {
-    flex: 1 0 auto;
-    flex-direction: column;
+    lost-center: var(--container-width);
+}
+header {
+    width: 100%;
+    & .logo {
+        flex: 1;
+    }
+
+}
+
+.content {
+    width: 100%;
+    flex: 1;
 }
 footer {
-    flex: 0 0 auto;
+    width: 100%;
 }

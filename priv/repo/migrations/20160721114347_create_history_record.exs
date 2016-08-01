@@ -3,9 +3,8 @@ defmodule PsyRussia.Repo.Migrations.CreateHistoryRecord do
 
   def change do
     create table(:history_records) do
-      add :in, :datetime
-      add :from, :datetime
-      add :to, :datetime
+      add :from, :date
+      add :to, :date
       add :subject, :string
       add :url, :string
       add :profile_id, references(:profiles, on_delete: :nothing)

@@ -79,7 +79,8 @@ exports.config = {
     enabled: true,
     globals: {
       $: "jquery",
-      select2: "select2"
+      select2: "select2",
+      pica: "pica"
     },
     styles: {
       select2: ["dist/css/select2.min.css"]

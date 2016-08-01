@@ -1,17 +1,33 @@
     <footer>
-      <div class="links">
-        <ul>
-          <li><a href="/">О сайте</a></li>
-          <li><a href="/">Соглашение</a></li>
-          <li><a href="/">Обратная связь</a></li>
-          <li><a href="/">Техническая поддержка</a></li>
-        </ul>
-      </div>
-        <div class="social-media">
-          <a href="/">Следите за новосятми в Twitter</a>
+      <div class="container">
+          <div class="social-media">
+            <span>Следите за нашими новосятми</span>
+            <div class="social-media-icons">
+              <a href="twitter.com">
+                <img src="/svg_icons/twitter.svg" 
+                alt="Our Twitter" height="24" width="24">
+              </a>
+              <a href="vk.com">
+                <img src="/svg_icons/vk.svg" 
+                alt="Our Vkontakte" height="24" width="24">
+              </a>
+              <a href="twitter.com">
+                <img src="/svg_icons/facebook.svg" 
+                alt="Our Facebook" height="24" width="24">
+              </a>
+            </div>
+          </div>
+        <div class="links">
+          <ul>
+            <li><a href="/">О сайте</a></li>
+            <li><a href="/">Соглашение</a></li>
+            <li><a href="/">Обратная связь</a></li>
+            <li><a href="/">Техническая поддержка</a></li>
+          </ul>
         </div>
-      <div class="copyright">
-        <span>© PsychologyRussia.ru </span>
+        <div class="copyright">
+          <span>© PsychologyRussia.ru </span>
+        </div>
       </div>
     </footer>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>

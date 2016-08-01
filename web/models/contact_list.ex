@@ -15,7 +15,9 @@ defmodule PsyRussia.ContactList do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [])
-    |> validate_required([])
+    |> cast(params, [:profile_id])
+    |> assoc_constraint(:profile)
+    |> cast_assoc(:phone_contacts)
+    |> cast_assoc(:email_contacts)
   end
 end

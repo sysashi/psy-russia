@@ -15,31 +15,33 @@
     <div class="step <%= active?(@step, "1") %>">
       <div class="step-number">1</div>
       <div class="step-description">
-        Персональные данные
+        <%= link("Персональные данные", to: profile_path(@conn, :edit, step: 1)) %>
       </div>
     </div>
     <div class="step <%= active?(@step, "2") %>">
       <div class="step-number">2</div>
       <div class="step-description">
-        Специальности и документы
+        <%= link("Специальности и документы", to: profile_path(@conn, :edit, step: 2)) %>
       </div>
     </div>
     <div class="step <%= active?(@step, "3") %>">
       <div class="step-number">3</div>
       <div class="step-description">
-        Контакты
+        <%= link("Контакты", to: profile_path(@conn, :edit, step: 3)) %>
       </div>
     </div>
     <div class="step <%= active?(@step, "4") %>">
       <div class="step-number">4</div>
       <div class="step-description">
-        Дополнительная информация
+        <%= link("Дополнительная информация", to: profile_path(@conn, :edit, step: 4)) %>
       </div>
     </div>
   </div>
 </header>
-<div class="container">
-  <%= render @view_module, @view_template, assigns %>
+<div class="content">
+  <div class="container">
+    <%= render @view_module, @view_template, assigns %>
+  </div>
 </div>
 <%= render "footer.html", assigns %>
 </body>

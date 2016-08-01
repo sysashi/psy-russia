@@ -8,7 +8,8 @@ defmodule PsyRussia.Profile do
     field :picture, :string
     field :birthdate, Ecto.Date
 
-    belongs_to :location, PsyRussia.Location
+    belongs_to :location, PsyRussia.Location, on_replace: :nilify
+
     many_to_many :occupations, 
       PsyRussia.Occupation, join_through: "profiles_occupations"
 
@@ -26,6 +27,11 @@ defmodule PsyRussia.Profile do
   @primary_fields [:fullname, :birthdate, :picture, :location_id]
   @secondary_fields [:occupations_ids]
 
+  def update_changeset(struct, :all, params) do
+    struct
+    |> changeset(params)
+  end
+
   def changeset(struct, params \\ %{}) do
     struct
     |> changeset(:psychologist, params)
@@ -42,31 +48,27 @@ defmodule PsyRussia.Profile do
     struct 
     |> cast(params, @primary_fields)
     |> validate_required(@primary_fields)
-    |> update_location()
-    |> change()
   end
 
   def changeset(struct, :secondary_fields, params) do
     struct
     |> cast(params, @secondary_fields)
-    |> cast_assoc(:documents, required: true)
     |> validate_required(@secondary_fields)
+    |> cast_assoc(:documents, required: true)
+    |> cast_assoc(:occupations, required: true)
   end
 
   def changeset(struct, :contact_list, params) do
     struct
+    |> cast(params, [])
+    |> cast_assoc(:contact_list, required: true)
   end
-
-  def update_location(changeset) do
-    case changeset do 
-      %Ecto.Changeset{changes: %{location_id: id}, valid?: true} ->
-        profile = PsyRussia.Repo.get!(PsyRussia.Location, id)
-        |> PsyRussia.Location.build(changeset)
-
-        IO.inspect profile
-        profile
-      _ ->
-        changeset
-    end
+  
+  defp everything(struct, params) do
+    struct
+    |> changeset(:psychologist, params)
+    |> changeset(:primary_fields, params)
+    |> changeset(:secondary_fields, params)
+    |> changeset(:contact_list, params)
   end
 end

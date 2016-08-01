@@ -1,77 +1,27 @@
 defmodule PsyRussia.ProfileController do
   use PsyRussia.Web, :controller
+  import PsyRussia.Auth, only: [authorize: 2]
 
+  plug :authorize, [who: :psychologist]
 
   alias PsyRussia.Profile
 
-  def index(conn, _params) do
-    profiles = Repo.all(Profile)
-    render(conn, "index.html", profiles: profiles)
-  end
-
-  def new(conn, %{"step" => step}) do
-    changeset = step
-    |> match_step()
-    |> defaults()
-    
-    data = step
-    |> match_step()
-    |> load_assocs()
-
-    conn
-    |> put_layout("new_profile.html")
-    |> assign(:step, step)
-    |> render("step-#{step}.html", [changeset: changeset] ++ data)
-  end
-
-  def create(conn, %{"profile" => profile_params, "step" => step}) do
-    action = match_step(step)
-    changeset = Profile.changeset(%Profile{}, action, profile_params)
-
-    data = step
-    |> match_step()
-    |> load_assocs()
-
-    case Repo.insert(changeset) do
-      {:ok, profile} ->
-        next = next_step(step)
-        conn
-        |> redirect(to: profile_path(conn, :new, step: next))
-      {:error, changeset} ->
-        IO.inspect changeset
-        conn 
-        |> assign(:step, step)
-        |> put_layout("new_profile.html")
-        |> render("step-#{step}.html", [changeset: changeset] ++ data)
-    end
-  end
-
-  def create(conn, %{"profile" => profile_params}) do
-    changeset = Profile.changeset(%Profile{}, profile_params)
-
-    case Repo.insert(changeset) do
-      {:ok, _profile} ->
-        conn
-        |> redirect(to: profile_path(conn, :index))
-      {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
-    end
-  end
-
-
-  def show(conn, %{"id" => id}) do
-    profile = Repo.get!(Profile, id)
+  def show(conn, _params) do
+    profile = current_psychologist_profile(conn)
     render(conn, "show.html", profile: profile)
   end
 
   def edit(conn, %{"step" => step}) do
     action = match_step(step)
-    profile = current_psychologist_profile()
-    changeset = Profile.changeset(profile, %{})
+    profile = current_psychologist_profile(conn)
 
-    data = step
-    |> match_step()
-    |> load_assocs()
+    IO.inspect profile
+
+    changeset = Profile.changeset(profile, %{})
+    |> defaults(action)
+
+    data = action
+    |> tmpl_data()
 
     conn
     |> put_layout("new_profile.html")
@@ -81,14 +31,14 @@ defmodule PsyRussia.ProfileController do
 
   def update(conn, %{"profile" => profile_params, "step" => step}) do
     action = match_step(step)
-    profile = current_psychologist_profile()
-    changeset = Profile.changeset(profile, action, profile_params)
 
-    IO.inspect profile_params
+    changeset = current_psychologist_profile(conn)
+    |> Profile.changeset(action, profile_params)
 
-    data = step
-    |> match_step()
-    |> load_assocs()
+    data = action
+    |> tmpl_data()
+
+    IO.inspect changeset
 
     case Repo.update(changeset) do
       {:ok, profile} ->
@@ -96,7 +46,6 @@ defmodule PsyRussia.ProfileController do
         conn
         |> redirect(to: profile_path(conn, :edit, step: next))
       {:error, changeset} ->
-        IO.inspect changeset
         conn 
         |> assign(:step, step)
         |> put_layout("new_profile.html")
@@ -105,8 +54,10 @@ defmodule PsyRussia.ProfileController do
   end
 
   def update(conn, %{"profile" => profile_params}) do
-    profile = Repo.get!(Profile, 1)
-    changeset = Profile.changeset(profile, profile_params)
+    profile = current_psychologist_profile(conn)
+
+    changeset = profile 
+    |> Profile.update_changeset(:all, profile_params)
 
     case Repo.update(changeset) do
       {:ok, profile} ->
@@ -116,19 +67,6 @@ defmodule PsyRussia.ProfileController do
         render(conn, "edit.html", profile: profile, changeset: changeset)
     end
   end
-
-  def delete(conn, %{"id" => id}) do
-    profile = Repo.get!(Profile, id)
-
-    # Here we use delete! (with a bang) because we expect
-    # it to always work (and if it does not, it will raise).
-    Repo.delete!(profile)
-
-    conn
-    |> put_flash(:info, "Profile deleted successfully.")
-    |> redirect(to: profile_path(conn, :index))
-  end
-
 
   # TODO should i move that logic to changest?
   defp match_step(step) when is_binary(step) do
@@ -154,42 +92,56 @@ defmodule PsyRussia.ProfileController do
     end
   end
 
-  defp load_assocs(:primary_fields) do
+
+  defp defaults(changeset, :secondary_fields) do
+    case changeset.data.documents do
+      [] -> 
+        changeset
+        |> Ecto.Changeset.put_assoc(:documents, [%PsyRussia.Document{}])
+      _ ->
+        changeset
+    end
+  end
+
+  defp defaults(changeset, :contact_list) do
+    case changeset.data.contact_list do
+      nil ->
+        phone = %PsyRussia.Contact.Phone{}
+        email = %PsyRussia.Contact.Email{}
+        contact_list = %PsyRussia.ContactList{
+          phone_contacts: [phone],
+          email_contacts: [email]} 
+
+        changeset
+        |> Ecto.Changeset.put_assoc(:contact_list, contact_list)
+      _ -> 
+        changeset
+    end
+  end
+
+  defp defaults(changeset, _) do
+    changeset 
+  end
+
+  defp tmpl_data(:primary_fields) do
     [locations: Repo.all(PsyRussia.Location)]
   end
 
-  defp load_assocs(:secondary_fields) do
+  defp tmpl_data(:secondary_fields) do
     [occupations: Repo.all(PsyRussia.Occupation)]
   end
 
-  defp load_assocs(_), do: []
+  defp tmpl_data(_), do: []
 
-  defp defaults(:secondary_fields) do
-    Profile.changeset(%Profile{documents: [%PsyRussia.Document{}]})
-  end
-
-  defp defaults(:contact_list) do
-    phone = %PsyRussia.Contact.Phone{}
-    email = %PsyRussia.Contact.Email{}
-    contact_list = %PsyRussia.ContactList{
-      phone_contacts: [phone],
-      email_contacts: [email]} 
-
-    PsyRussia.Profile.changeset(%PsyRussia.Profile{contact_list: contact_list})
-  end
-
-  defp defaults(_) do
-  end
-
-  def current_psychologist_profile do
-    Repo.get(Profile, 1)
-    |> Repo.preload(:location)
-    |> Repo.preload(:psychologist)
-    |> Repo.preload(:occupations)
-    |> Repo.preload(:contact_list)
-    |> Repo.preload(:education_records)
-    |> Repo.preload(:employment_records)
-    |> Repo.preload(:documents)
-    |> Profile.changeset()
+  def current_psychologist_profile(conn) do
+    psycho = conn.assigns.psychologist |> Repo.preload(:profile)
+    psycho.profile 
+    |> Repo.preload([:location, 
+                     :psychologist, 
+                     :occupations, 
+                     :education_records, 
+                     :employment_records, 
+                     :documents,
+                     [contact_list: [:phone_contacts, :email_contacts, :online_service_contacts]]])
   end
 end

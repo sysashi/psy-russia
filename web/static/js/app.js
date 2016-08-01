@@ -31,7 +31,6 @@ var fileSelect = document.getElementById("fileSelect"),
     preview = document.getElementById("preview")
 
 fileElem.addEventListener("change", function(e) {
-  console.log(e)
   handleFiles(e.target.files)
 }, false);
 
@@ -43,7 +42,6 @@ fileSelect.addEventListener("click", function (e) {
 }, false);
 
 function handleFiles(files) {
-  console.log(files)
   for (var i = 0; i < files.length; i++) {
     var file = files[i];
     var imageType = /^image\//;
@@ -67,7 +65,6 @@ function sendFile(file) {
   xhr.upload.addEventListener("progress", function(e) {
     if (e.lengthComputable) {
       var percentage = Math.round((e.loaded * 100) / e.total);
-      console.log(percentage)
     }
   }, false);
 

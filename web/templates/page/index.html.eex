@@ -6,23 +6,28 @@
 </div>
 <div class="search-form">
   <form>
-
-    <div class="input-block">
-      <div class="input-group">
-        <span class=""> Город </span>
-        <%= select :location, :city, Enum.map(@locations, &{&1.city, &1.city}) %>
+    <div class="row">
+      <div class="input-block">
+        <div class="input-group">
+          <span class="input-group-addon"> Город </span>
+          <%= select :location, :city, 
+          Enum.map(@locations, &{&1.city, &1.city}),
+          class: "input-group-select" %>
+        </div>
       </div>
-    </div>
 
-    <div class="input-block">
-      <div class="input-group">
-        <span class=""> Направление </span>
-        <%= select :occupation, :id, Enum.map(@occupations, &{&1.name, &1.id}) %>
+      <div class="input-block">
+        <div class="input-group">
+          <span class="input-group-addon"> Направление </span>
+          <%= select :occupation, :id, 
+          Enum.map(@occupations, &{&1.name, &1.id}),
+          class: "input-group-select" %>
+        </div>
       </div>
-    </div>
 
-    <div class="input-block">
-      <button> Показать специалистов </button>
+      <div class="input-block">
+        <button> Показать специалистов </button>
+      </div>
     </div>
 
   </form>

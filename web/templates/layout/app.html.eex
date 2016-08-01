@@ -1,5 +1,7 @@
 <%= render "header.html", assigns %>
-<div class="container">
-  <%= render @view_module, @view_template, assigns %>
+<div class="content">
+  <div class="container">
+    <%= render @view_module, @view_template, assigns %>
+  </div>
 </div>
 <%= render "footer.html", assigns %>

@@ -30,7 +30,7 @@ msgid "is invalid"
 msgstr ""
 
 msgid "has invalid format"
-msgstr ""
+msgstr "Неправильного формата"
 
 msgid "has an invalid entry"
 msgstr ""
@@ -61,9 +61,9 @@ msgstr[2] ""
 
 msgid "should be at least %{count} character(s)"
 msgid_plural "should be at least %{count} character(s)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Как минимум %{count} знак"
+msgstr[1] "Как минимум %{count} знака"
+msgstr[2] "Как минимум %{count} знаков"
 
 msgid "should have at least %{count} item(s)"
 msgid_plural "should have at least %{count} item(s)"

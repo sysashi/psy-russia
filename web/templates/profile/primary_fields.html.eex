@@ -31,9 +31,7 @@
         <%= error_tag f, :location %>
       </div>
       <div class="input">
-        <%= inputs_for f, :location, fn location -> %>
-          <%= select location, :id, Enum.map(@locations, &{&1.city, &1.id}) %>
-        <% end %>
+        <%= select f, :location_id, Enum.map(@locations, &{&1.city, &1.id}), prompt: "Выберите свой город" %>
       </div>
     </div>
    
